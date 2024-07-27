@@ -20,7 +20,7 @@ namespace EmployeeHR.Api.Controllers
         }
 
 
-        [HttpGet]
+        [HttpGet("GetAll")]
         public IActionResult Get()
         {
             var dep = _dbContext.Departments.ToList();
@@ -41,7 +41,7 @@ namespace EmployeeHR.Api.Controllers
 
 
         [HttpPost]
-        public IActionResult post([FromForm]Department department)
+        public ActionResult<bool> post([FromForm]Department department)
         {
             if(department == null)
             {
@@ -50,11 +50,11 @@ namespace EmployeeHR.Api.Controllers
 
             _dbContext.Departments.Add(department);
             _dbContext.SaveChanges();
-            return Ok(_dbContext.Departments.ToList());
+            return Ok(true);
         }
 
         [HttpPut]
-        public IActionResult Put(Department department)
+        public ActionResult<bool> Put(Department department)
         {
             var dep = _dbContext.Departments.FirstOrDefault(x => x.Id == department.Id);
             if (dep == null)
@@ -63,7 +63,7 @@ namespace EmployeeHR.Api.Controllers
             }
             dep.Name = department.Name;
             _dbContext.SaveChanges();
-            return Ok(_dbContext.Departments.ToList());
+            return Ok(true);
         }
 
 
