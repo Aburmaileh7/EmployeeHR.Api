@@ -41,7 +41,7 @@ namespace EmployeeHR.Api.Controllers
 
 
         [HttpPost]
-        public ActionResult<bool> post([FromForm]Department department)
+        public ActionResult<bool> post([FromBody]Department department)
         {
             if(department == null)
             {
@@ -61,7 +61,9 @@ namespace EmployeeHR.Api.Controllers
             {
                 return NotFound();
             }
+            dep.Abbreviation = department.Abbreviation;
             dep.Name = department.Name;
+            _dbContext.Departments.Update(dep);
             _dbContext.SaveChanges();
             return Ok(true);
         }
@@ -76,8 +78,8 @@ namespace EmployeeHR.Api.Controllers
             {
                 return NotFound();
             }
-            dep.Name = department.Name;
-
+            dep.Abbreviation = department.Abbreviation;
+            _dbContext.Departments.Update(dep);
             _dbContext.SaveChanges();
             return Ok(_dbContext.Departments.ToList());
         }
